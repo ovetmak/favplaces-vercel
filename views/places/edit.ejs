@@ -1,0 +1,55 @@
+<% layout('layouts/boilerplate') %>
+    <div class="row">
+        <h1 class="text-center">Edit <%= place.title %>
+        </h1>
+        <div class="col-6 offset-3">
+            <form action="/places/<%= place._id %>?_method=PUT" method="POST" class="needs-validation" novalidate enctype="multipart/form-data">
+                <div class="mb-1">
+                    <label class="form-label " for="title">Title</label>
+                    <input class="form-control" type="text" id="title" name="title" placeholder="title"
+                        value="<%= place.title %>" required>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div>
+                <div class="mb-1"><label class="form-label " for="location">Location</label>
+                    <input class="form-control" type="text" id="location" name="location" placeholder="location"
+                        value="<%= place.location %>" required>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div>
+                <div class="mb-1"><label class="form-label " for="description">Description</label>
+                    <textarea class="form-control" name="description" id="description" cols="30" rows="3"
+                        required><%= place.description %></textarea>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div>
+                <div class="mb-1"><label class="form-label " for="category">Category</label>
+                    <select class="form-control" name="category" id="category" category>
+                        <% for (category of categories) {%>
+                            <option value="<%= category %>"" <%= place.category === category ? 'selected' : ''%>><%= category %></option>
+                            <% } %>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="image" class="form-label">Add images</label>
+                    <input class="form-control" name="image" type="file" id="image" multiple>
+                </div>
+
+                <div class="mb-3">
+                    <% place.images.forEach(function(img,i) { %>
+                        <img src="<%= img.thumbnail %>" class="img-thumbnail" alt="">
+                        <div class="form-check-inline">
+                            <input type="checkbox" name="deleteImages[]" value="<%= img.filename %>" id="image-<%= i %>">
+                        </div>
+                        <label for="image-<%= i %>">Delete</label>
+                    <% }) %>
+                </div>
+
+                <div class="mb-1"><button class="btn btn-secondary">Edit place</button></div>
+            </form>
+            <a href="/places">Back to all places</a>
+        </div>
+    </div>
